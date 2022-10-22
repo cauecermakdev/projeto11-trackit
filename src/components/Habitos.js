@@ -104,8 +104,8 @@ export default function Habitos() {
                         <div className="divDiasDasemana">
                             {diasDaSemana.map((dia, i) =>
                                 <Dia key={i}
-                                    className={diasClicados.includes(i) ? "clicado" : doNothing()}
-                                    onClick={() => diaClicado(i)}>
+                                    className={diasClicados.includes(i+1) ? "clicado" : doNothing()}
+                                    onClick={() => diaClicado(i+1)}>
 
                                     {dia}
                                 </Dia>)}

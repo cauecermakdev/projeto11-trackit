@@ -5,13 +5,18 @@ import { Link } from "react-router-dom";
 import GlobalStyle from "../GlobalStyle";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import Login_context from "../providers/login";
 
 
 export default function Login() {
     const [senha, setSenha] = useState("");
     const [email, setEmail] = useState("");
+    const [token,setToken] = useState("");
     const navigate = useNavigate();
 
+    const {user,setUser}  = useContext(Login_context);
+    console.log("aqui",user.name);
 
     function estaPreenchido() {
         if (email == "" || senha == "") {
@@ -20,7 +25,6 @@ export default function Login() {
         }
         return true;
     }
-
 
     function logar(event) {
 
@@ -42,6 +46,7 @@ export default function Login() {
 
         requisicao.then(
             (resposta) => {
+                setToken(resposta.data.token);
                 navigate("/habitos");
                 console.log(resposta.data);
             }
