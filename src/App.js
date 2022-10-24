@@ -33,7 +33,7 @@ export default function App() {
                     <Route path="/cadastro" element={<Cadastro />} />
                     <Route path="/habitos" element={<Habitos />} />
                     <Route path="/hoje/" element={< Hoje />} />
-                    <Route path="/historico/" element={< Historico />} />
+                    <Route path="/historico" element={< Historico />} />
                 </Routes>
             </BrowserRouter>
         </Login_context.Provider>

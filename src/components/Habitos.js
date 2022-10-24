@@ -53,7 +53,7 @@ export default function Habitos() {
         if (diasClicados.includes(indiceDia)) {
             const novoArray = diasClicados.filter((item) => {
                 if (item !== indiceDia) {
-                    return item + 1;
+                    return item;
                 }
             })
             console.log("novoArray", novoArray);
@@ -148,8 +148,8 @@ export default function Habitos() {
                         <div className="divDiasDasemana">
                             {diasDaSemana.map((dia, i) =>
                                 <Dia key={i}
-                                    className={diasClicados.includes(i+1) ? "clicado" : doNothing()}
-                                    onClick={() => diaClicado(i+1)}>
+                                    className={diasClicados.includes(i) ? "clicado" : doNothing()}
+                                    onClick={() => diaClicado(i)}>
 
                                     {dia}
                                 </Dia>)}
