@@ -1,12 +1,13 @@
 import logo from "../assets/img/trackitLogo.png";
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
+/* import { useEffect } from "react"; */
 import { Link } from "react-router-dom";
 import GlobalStyle from "../GlobalStyle";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import Login_context from "../providers/login";
+import Login_context from "../providers/loginContext";
 
 
 export default function Login() {
@@ -16,7 +17,7 @@ export default function Login() {
     const navigate = useNavigate();
 
     const {user,setUser}  = useContext(Login_context);
-    console.log("aqui",user.name);
+    /* console.log("aqui",user); */
 
     function estaPreenchido() {
         if (email == "" || senha == "") {
@@ -28,7 +29,7 @@ export default function Login() {
 
     function logar(event) {
 
-         event.preventDefault(); // impede o redirecionamento 
+        event.preventDefault(); // impede o redirecionamento 
 
         if (!estaPreenchido()) {
             return;
@@ -47,8 +48,9 @@ export default function Login() {
         requisicao.then(
             (resposta) => {
                 setToken(resposta.data.token);
+                setUser({id:resposta.data.id, name:resposta.data.name, image:resposta.data.image, password:resposta.data.password ,token:resposta.data.token})
                 navigate("/habitos");
-                console.log(resposta.data);
+                console.log("login resposta.data",resposta.data);
             }
         );
 
@@ -56,7 +58,6 @@ export default function Login() {
             console.log(error);
             alert("Login ou Senha não correspondem");
         })
-
 
     }
 
@@ -75,6 +76,7 @@ export default function Login() {
                 </div>
 
             </form>
+    
             <Link to={"/cadastro"} className="centerFlex">
                 <CadastreLink>Não tem uma conta? Cadastre-se!</CadastreLink>
             </Link>
@@ -91,6 +93,7 @@ const ContainerLogin = styled.div`
     flex-direction:column;
     align-items:center;    
     width:100%;
+
 `
 
 
@@ -99,25 +102,6 @@ const InputsContainer = styled.div`
     flex-direction:column;
     width:100%;
     font-size:18px;
-    padding:0px 24px;
-    
-
-/*     input{
-        margin:3px 0px;
-        font-size:18px;
-        font-weight:400;
-        width:303px;
-        height:45px;
-        background-color:#FFFFFF;
-        border: 1px solid #D4D4D4;
-        border-radius: 5px;
-        padding-left:16px;
-        color: #dbdbdb;;
-    }
-
-    input:focus{
-        color:#52B6FF;
-    } */
     `
 
 
@@ -131,7 +115,6 @@ const Button = styled.button`
     color: white;
     font-size:21px;
     border:0px;
-    
 `
 
 const CadastreLink = styled.p`

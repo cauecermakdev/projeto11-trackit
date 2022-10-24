@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import imgRedondaAzul from "../assets/img/roundBlue.png";
 import imgArco from "../assets/img/arco.png";
+import axios from "axios";
 
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Login_context from "../providers/loginContext";
+import { Link } from "react-router-dom";
 
 import {
     CircularProgressbar,
@@ -11,7 +16,35 @@ import {
 import 'react-circular-progressbar/dist/styles.css';
 
 export default function TopoMenu() {
+    /* const [listaHabitosHoje,setListaHabitosHoje] = useState([]); */
     const percentage = 66;
+    const navigate = useNavigate();
+    const userContext = useContext(Login_context);
+    console.log("userContext",userContext.user);
+
+/*     const config = {
+        headers: { Authorization: `Bearer ${userContext.user.token}` }
+    }
+
+    function listarHabitosHoje(){
+        const response = axios.get(
+            "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today",
+            config
+        );
+
+        response.then((res) =>{
+         console.log("ListarHabitosHoje.then res.data",res.data);
+         
+            
+            userContext.user.listaHabitosHoje = res.data; 
+            navigate("/hoje");
+         }
+         );
+        response.catch((error)=>console.log(error));
+    } */
+
+
+
     return (
         <>
             <Topo>
@@ -20,8 +53,12 @@ export default function TopoMenu() {
             </Topo>
 
             <FooterHabitos>
-                    <p>Hábitos</p>
-                    <HojeButton>
+
+                    <Link to="/habitos" className="link">
+                        <p>Hábitos</p>
+                    </Link>
+
+                    <HojeButton onClick = {()=>navigate("/hoje")}>
                         <CircularProgressbar
                             value={percentage}
                             text={`Hoje`}
@@ -37,7 +74,10 @@ export default function TopoMenu() {
                         />
                         
                     </HojeButton>
-                    <p>Históricos</p>
+                    
+                    <Link to="/historico" className="link">
+                        <p>Histórico</p>
+                    </Link>
                 </FooterHabitos>
         </>
     );
@@ -68,9 +108,15 @@ const FooterHabitos = styled.div`
     font-size:18px;
     bottom:0px;
     left:0px;
+    z-index:1;
     
     p{
         margin:0px 30px;
+    }
+
+    .link{
+        text-decoration:none;
+        color:#52B6FF;
     }
 `
 
@@ -82,7 +128,7 @@ const HeaderHabitos = styled.div`
     p{
         font-size:23px;
         color:#126BA5;
-        font-weight:400;
+        font-weight:400;             
     }
 
     button{
@@ -111,6 +157,7 @@ const Topo = styled.div`
     color:white;
     background-color:#126BA5;
     font-family: 'Playball', cursive;
+    z-index:1;
 `
 
 const ImgProfile = styled.img`
@@ -118,3 +165,4 @@ const ImgProfile = styled.img`
     height:51px;
     border-radius:50px;
 `
+

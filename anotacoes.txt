@@ -1,0 +1,2 @@
+Consegui criar um habito. 
+Agora preciso fazer .map em uma requisicao dos meus habitos e criar css

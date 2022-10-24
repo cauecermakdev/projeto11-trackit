@@ -1,10 +1,13 @@
 import logo from "../assets/img/trackitLogo.png";
 import styled from "styled-components";
 
-import React, {useEffect, useState } from "react";
+import React, { useState } from "react";
+/* import { useEffect } from "react"; */
 import { Link } from "react-router-dom";
 import GlobalStyle from "../GlobalStyle";
 import axios from "axios";
+
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -13,31 +16,34 @@ export default function Cadastro() {
     const [email, setEmail] = useState("");
     const [nome, setNome] = useState("");
     const [foto, setFoto] = useState("");
+    const navigate = useNavigate();
 
 
     function camposEstaoPreenchidos() {
-        if (senha == "") {
+        if (senha === "") {
             alert("insira sua senha");
-            return;
-        } else if (email == "") {
+            return false;
+        } else if (email === "") {
             alert("insira seu email");
-            return;
-        } else if (nome == "") {
+            return false;
+        } else if (nome === "") {
             alert("insira seu nome");
-            return;
-        } else if (foto == "") {
+            return false;
+        } else if (foto === "") {
             alert("insira o link da sua foto");
-            return;
+            return false;
         }
     }
 
 
     function cadastrar(event) {
+        console.log("entra cadastrar");
         event.preventDefault(); // impede o redirecionamento
 
-        if(!camposEstaoPreenchidos()){
+/*          if(!camposEstaoPreenchidos()){
+            alert("campos não estão preenchidos")
             return;
-        };
+        };  */
 
 
         const requisicao = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", {
@@ -52,8 +58,9 @@ export default function Cadastro() {
             return <img key={1} alt="loading" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" />
         }
 
-        requisicao.then(resposta => {console.log(resposta.data);});
-        requisicao.catch((error) => console.log(error))
+        requisicao.then(resposta => {console.log("cadastrado",resposta.data);});
+        requisicao.catch((error) => console.log(error));
+        navigate("/");
     }
 
 
@@ -64,18 +71,18 @@ export default function Cadastro() {
             <Logo src={logo} alt="logoTrackit"></Logo>
             <form onSubmit={(e) => cadastrar(e)}>
                 <InputsContainer>
-                    <input name="email" type="text" placeholder="email" onChange={e => setEmail(e.target.value)} value={email}></input>
-                    <input name="senha" type="text" placeholder="senha" onChange={e => setSenha(e.target.value)} value={senha}></input>
-                    <input name="nome" type="text" placeholder="nome" onChange={e => setNome(e.target.value)} /* value={email} */></input>
-                    <input name="foto" type="text" placeholder="foto" onChange={e => setFoto(e.target.value)} /* value={senha} */></input>
+                    <input name="email" type="text" placeholder="email" onChange={e => setEmail(e.target.value)} /* value={email} */></input>
+                    <input name="senha" type="text" placeholder="senha" onChange={e => setSenha(e.target.value)} /* value={senha} */></input>
+                    <input name="nome" type="text" placeholder="nome" onChange={e => setNome(e.target.value)}  /* value={nome}  */></input>
+                    <input name="foto" type="text" placeholder="foto" onChange={e => setFoto(e.target.value)}  /* value={foto}  */></input>
                 </InputsContainer>
 
-                <Link to="/" className="centerFlex">
+                {/* <Link to="/" className="centerFlex"> */}
                     <Button type="submit">Cadastrar</Button>
-                </Link>
+                {/* </Link> */}
             </form>
             <Link to="/" className="centerFlex">
-                <LoginLink>Não tem uma conta? Cadastre-se!</LoginLink>
+                <LoginLink>Já tem uma conta? Faça login!</LoginLink>
             </Link>
         </ContainerLogin>
     )
@@ -97,7 +104,6 @@ const InputsContainer = styled.div`
     flex-direction:column;
     width:100%;
     font-size:18px;
-    padding:0px 24px;
     
 
     input{
